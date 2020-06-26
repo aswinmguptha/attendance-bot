@@ -1,10 +1,15 @@
 #!/usr/bin/python3
 
+import logging
+import csv
+import time
+
 from telegram.ext import Updater, CommandHandler, run_async, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-
 from config import Config
-import logging
+from io import StringIO, BytesIO
+from datetime import datetime
+
 
 class attendance_bot:
     def __init__(self, config):
@@ -51,14 +56,29 @@ class attendance_bot:
         query = update.callback_query
         choice = query.data
         if choice == 'present':
-            context.chat_data['list'].append(update.effective_user.id)
+            _first_name = update.effective_user.first_name
+            _last_name = update.effective_user.last_name or ''
+            _member = (len(context.chat_data['list']) + 1, update.effective_user.id, _first_name + ' ' + _last_name)
+            context.chat_data['list'].append(_member)
             context.bot.answer_callback_query(callback_query_id=query.id, text="Your attendance has been marked", show_alert=True)
 
     def end_attendance(self, update, context):
         original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
         if original_member['status'] in ('creator', 'administrator'):
-            context.bot.edit_message_text(text="Attendance is over. {} people(s) marked attendance. Here is the list. {}".format(len(context.chat_data['list']), 
-                                            context.chat_data['list']), chat_id=self.message.chat_id, message_id=self.message.message_id)
+            context.bot.edit_message_text(text="Attendance is over. {} people(s) marked attendance.".format(len(context.chat_data['list'])),
+                                          chat_id=self.message.chat_id, message_id=self.message.message_id)
+            unix_time_string = int(time.time())
+            filename = f'{update.effective_chat.title}-Attendance-{unix_time_string}.csv'
+            caption = f'Attendees: {len(context.chat_data["list"])}\nDate: {datetime.now().strftime("%F")}\nTime: {datetime.now().strftime("%r")}'
+            with StringIO() as f:
+                _writer = csv.writer(f)
+                _writer.writerows(context.chat_data['list'])
+                f.seek(0)
+                f = BytesIO(f.read().encode('utf8'))
+                try:
+                    context.bot.send_document(update.effective_user.id, f, filename=filename, caption=caption)
+                except Exception as e:
+                    context.bot.send_message(update.effective_chat.id, str(e))
         self.flag = 0
         update.message.delete()
 
