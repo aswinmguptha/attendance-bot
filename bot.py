@@ -67,8 +67,8 @@ class attendance_bot:
         if original_member['status'] in ('creator', 'administrator'):
             context.bot.edit_message_text(text="Attendance is over. {} people(s) marked attendance.".format(len(context.chat_data['list'])),
                                           chat_id=self.message.chat_id, message_id=self.message.message_id)
-            unix_time_string = int(time.time())
-            filename = f'{update.effective_chat.title}-Attendance-{unix_time_string}.csv'
+            date_and_time = datetime.now().strftime('%F-%A-%r')
+            filename = f'{update.effective_chat.title}-Attendance-{date_and_time}.csv'
             caption = f'Attendees: {len(context.chat_data["list"])}\nDate: {datetime.now().strftime("%F")}\nTime: {datetime.now().strftime("%r")}'
             with StringIO() as f:
                 _writer = csv.writer(f)
