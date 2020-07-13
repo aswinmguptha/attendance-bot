@@ -4,6 +4,7 @@ import logging
 import csv
 import time
 
+import telegram
 from telegram.ext import Updater, CommandHandler, run_async, CallbackQueryHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from config import Config
@@ -31,7 +32,9 @@ class attendance_bot:
     
     @run_async
     def start(self, update, context):
-        update.message.reply_text("Welcome")
+        update.message.reply_text('''Hi,
+Welcome to Group Attendance Bot\. Add me to your group to mark attendance\. 
+If you found any issues or have any feature requests, head to our GitLab [issues](https://gitlab.com/keralagram/attendance-bot/-/issues) page\.''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
     def start_attendance(self, update, context):
         if 'flag' in context.chat_data:
