@@ -56,12 +56,17 @@ class attendance_bot:
         query = update.callback_query
         choice = query.data
         if choice == 'present':
-            _first_name = update.effective_user.first_name
-            _last_name = update.effective_user.last_name or ''
-            _time = datetime.now().strftime("%H:%M")
-            _member = (len(context.chat_data['list']) + 1, update.effective_user.id, _first_name + ' ' + _last_name, _time)
-            context.chat_data['list'].append(_member)
-            context.bot.answer_callback_query(callback_query_id=query.id, text="Your attendance has been marked", show_alert=True)
+            print(update.effective_user.id)
+            print(context.chat_data['list'])
+            if [i for i, v in enumerate(context.chat_data['list']) if v[1] == update.effective_user.id]:
+                context.bot.answer_callback_query(callback_query_id=query.id, text="You have already maked your attendance", show_alert=True)
+            else:
+                _first_name = update.effective_user.first_name
+                _last_name = update.effective_user.last_name or ''
+                _time = datetime.now().strftime("%H:%M")
+                _member = (len(context.chat_data['list']) + 1, update.effective_user.id, _first_name + ' ' + _last_name, _time)
+                context.chat_data['list'].append(_member)
+                context.bot.answer_callback_query(callback_query_id=query.id, text="Your attendance has been marked", show_alert=True)
 
     def end_attendance(self, update, context):
         original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
