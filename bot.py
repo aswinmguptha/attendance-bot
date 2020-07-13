@@ -56,8 +56,6 @@ class attendance_bot:
         query = update.callback_query
         choice = query.data
         if choice == 'present':
-            print(update.effective_user.id)
-            print(context.chat_data['list'])
             if [i for i, v in enumerate(context.chat_data['list']) if v[1] == update.effective_user.id]:
                 context.bot.answer_callback_query(callback_query_id=query.id, text="You have already maked your attendance", show_alert=True)
             else:
