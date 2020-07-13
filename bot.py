@@ -73,6 +73,7 @@ class attendance_bot:
             caption = f'Attendees: {len(context.chat_data["list"])}\nDate: {datetime.now().strftime("%F")}\nTime: {datetime.now().strftime("%r")}'
             with StringIO() as f:
                 _writer = csv.writer(f)
+                _writer.writerow(['Serial number','user id','Name','Time'])
                 _writer.writerows(context.chat_data['list'])
                 f.seek(0)
                 f = BytesIO(f.read().encode('utf8'))
