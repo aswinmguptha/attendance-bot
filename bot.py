@@ -79,6 +79,10 @@ class attendance_bot:
                     context.bot.send_document(update.effective_user.id, f, filename=filename, caption=caption)
                 except Exception as e:
                     context.bot.send_message(update.effective_chat.id, str(e))
+                    context.bot.send_message(update.effective_chat.id, 'Posting result in the group...')
+                    f.seek(0)
+                    context.bot.send_document(update.effective_chat.id, f, filename=filename, caption=caption)
+
         self.flag = 0
         update.message.delete()
 
