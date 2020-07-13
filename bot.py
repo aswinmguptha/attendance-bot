@@ -14,7 +14,6 @@ from datetime import datetime
 class attendance_bot:
     def __init__(self, config):
         self.TOKEN = config.bot_api
-        self.flag = 0
     
     def initialize(self):
         updater = Updater(token=self.TOKEN, use_context=True)
@@ -35,21 +34,22 @@ class attendance_bot:
         update.message.reply_text("Welcome")
 
     def start_attendance(self, update, context):
-        self.flag += 1
-        if self.flag != 1:
+        if 'flag' in context.chat_data:
             update.message.reply_text("Please close the current attendance first")
             update.message.delete()
             return
-        context.chat_data['list'] = []
-        original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
-        if original_member['status'] in ('creator', 'administrator'):
-            keyboard = [[InlineKeyboardButton("Present", callback_data='present')]]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            self.message = update.message.reply_text("Please mark your attendance", reply_markup=reply_markup)
         else:
-            update.message.reply_text("Only admins can execute this command")
+            context.chat_data['flag'] = True
+            context.chat_data['list'] = []
+            original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
+            if original_member['status'] in ('creator', 'administrator'):
+                keyboard = [[InlineKeyboardButton("Present", callback_data='present')]]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                self.message = update.message.reply_text("Please mark your attendance", reply_markup=reply_markup)
+            else:
+                update.message.reply_text("Only admins can execute this command")
 
-        update.message.delete()
+            update.message.delete()
 
     @run_async
     def mark_attendance(self, update, context):
@@ -86,7 +86,7 @@ class attendance_bot:
                         f.seek(0)
                         context.bot.send_document(update.effective_chat.id, f, filename=filename, caption=caption)
 
-        self.flag = 0
+        del context.chat_data['flag']
         update.message.delete()
 
 if __name__ == '__main__':
