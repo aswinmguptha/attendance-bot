@@ -22,6 +22,8 @@ class attendance_bot:
         logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
         start_handler = CommandHandler('start', self.start)
         dispatcher.add_handler(start_handler)
+        help_handler = CommandHandler('help', self.help)
+        dispatcher.add_handler(help_handler)
         start_attendance_handler = CommandHandler('start_attendance', self.start_attendance)
         mark_attendance_handler= CallbackQueryHandler(self.mark_attendance)
         end_attendance_handler = CommandHandler('end_attendance', self.end_attendance)
@@ -33,8 +35,16 @@ class attendance_bot:
     @run_async
     def start(self, update, context):
         update.message.reply_text('''Hi,
-Welcome to Group Attendance Bot\. Add me to your group to mark attendance\. 
+Welcome to Group Attendance Bot\. Add me to your group to mark attendance\. Send /help to know more\. 
 If you found any issues or have any feature requests, head to our GitLab [issues](https://gitlab.com/keralagram/attendance-bot/-/issues) page\.''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
+
+    def help(self, update, context):
+        update.message.reply_text('''For the proper working of the bot, you should add the bot to your goup and you should promote the bot as admin with delete message privilage. Once you do this you can manage the bot with following commands. All these commands can be executed for the group admins only.
+        
+/start_attendance - To start the attendance
+/end_attendance - To end the attendance and send the result as csv
+        
+Please be noted that the end_attendance command will send the result as csv as a personal message to you only if you have had conversation with the bot before. Otherwise it will sent to the group.''')
 
     def start_attendance(self, update, context):
         if 'flag' in context.chat_data:
