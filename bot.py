@@ -47,21 +47,21 @@ If you found any issues or have any feature requests, head to our GitLab [issues
 Please be noted that the end_attendance command will send the result as csv as a personal message to you only if you have had conversation with the bot before. Otherwise it will sent to the group.''')
 
     def start_attendance(self, update, context):
-        if 'flag' in context.chat_data:
-            update.message.reply_text("Please close the current attendance first")
-            update.message.delete()
-            return
-        else:
-            context.chat_data['flag'] = True
-            context.chat_data['list'] = []
-            original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
-            if original_member['status'] in ('creator', 'administrator'):
+        original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
+        if original_member['status'] in ('creator', 'administrator'):
+            if 'flag' in context.chat_data:
+                update.message.reply_text("Please close the current attendance first")
+                update.message.delete()
+                return
+            else:
+                context.chat_data['flag'] = True
+                context.chat_data['list'] = []
                 keyboard = [[InlineKeyboardButton("Present", callback_data='present')]]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 self.message = update.message.reply_text("Please mark your attendance", reply_markup=reply_markup)
-            else:
-                update.message.reply_text("Only admins can execute this command")
-
+                update.message.delete()
+        else:
+            update.message.reply_text("Only admins can execute this command")
             update.message.delete()
 
     @run_async
@@ -102,7 +102,9 @@ Please be noted that the end_attendance command will send the result as csv as a
                         f.seek(0)
                         context.bot.send_document(update.effective_chat.id, f, filename=filename, caption=caption)
 
-        del context.chat_data['flag']
+            del context.chat_data['flag']
+        else:
+            update.message.reply_text("Only admins can execute this command")
         update.message.delete()
 
 if __name__ == '__main__':
