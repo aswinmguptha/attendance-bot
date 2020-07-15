@@ -36,15 +36,17 @@ class attendance_bot:
     def start(self, update, context):
         update.message.reply_text('''Hi,
 Welcome to Group Attendance Bot\. Add me to your group to mark attendance\. Send /help to know more\. 
-If you found any issues or have any feature requests, head to our GitLab [issues](https://gitlab.com/keralagram/attendance-bot/-/issues) page\.''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
+''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
     def help(self, update, context):
-        update.message.reply_text('''For the proper working of the bot, you should add the bot to your goup and you should promote the bot as admin with delete message privilage. Once you do this you can manage the bot with following commands. All these commands can be executed for the group admins only.
+        update.message.reply_text('''For the proper working of the bot, you should add the bot to your group and you should promote the bot as admin with delete messages privilage\. Once you do this, you can manage the bot with the following commands\. All these commands can be executed for the group admins only\.
         
-/start_attendance - To start the attendance
-/end_attendance - To end the attendance and send the result as csv
+/start\_attendance \- To start the attendance
+/end\_attendance \- To end the attendance and send the result as csv
         
-Please be noted that the end_attendance command will send the result as csv as a personal message to you only if you have had conversation with the bot before. Otherwise it will sent to the group.''')
+Please be noted that the end\_attendance command will send the result in csv format as a personal message to you only if you have had conversation with the bot before\. Otherwise it will sent to the group\. 
+
+If you found any issues or have any feature requests, head to our GitLab [issues](https://gitlab.com/keralagram/attendance-bot/-/issues) page\.''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
     def start_attendance(self, update, context):
         original_member = context.bot.get_chat_member(update.effective_chat.id, update.effective_user.id)
