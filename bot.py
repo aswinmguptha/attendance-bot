@@ -5,7 +5,7 @@ import csv
 import time
 
 import telegram
-from telegram.ext import Updater, CommandHandler, run_async, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, run_async, CallbackQueryHandler, Filters
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from config import Config
 from io import StringIO, BytesIO
@@ -20,13 +20,13 @@ class attendance_bot:
         updater = Updater(token=self.TOKEN, use_context=True)
         dispatcher = updater.dispatcher
         logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-        start_handler = CommandHandler('start', self.start)
+        start_handler = CommandHandler('start', self.start, Filters.private)
         dispatcher.add_handler(start_handler)
-        help_handler = CommandHandler('help', self.help)
+        help_handler = CommandHandler('help', self.help, Filters.private)
         dispatcher.add_handler(help_handler)
-        start_attendance_handler = CommandHandler('start_attendance', self.start_attendance)
+        start_attendance_handler = CommandHandler('start_attendance', self.start_attendance, Filters.group)
         mark_attendance_handler= CallbackQueryHandler(self.mark_attendance)
-        end_attendance_handler = CommandHandler('end_attendance', self.end_attendance)
+        end_attendance_handler = CommandHandler('end_attendance', self.end_attendance, Filters.group)
         dispatcher.add_handler(start_attendance_handler)
         dispatcher.add_handler(mark_attendance_handler)
         dispatcher.add_handler(end_attendance_handler)
