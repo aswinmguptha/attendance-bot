@@ -11,7 +11,6 @@ from config import Config
 from io import StringIO, BytesIO
 from datetime import datetime
 
-
 class attendance_bot:
     def __init__(self, config):
         self.TOKEN = config.bot_api
@@ -39,10 +38,11 @@ Welcome to Group Attendance Bot\. Add me to your group to mark attendance\. Send
 ''', parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
     def help(self, update, context):
-        update.message.reply_text('''For the proper working of the bot, you should add the bot to your group and you should promote the bot as admin with delete messages privilage\. Once you do this, you can manage the bot with the following commands\. All these commands can be executed for the group admins only\.
-        
-/start\_attendance \- To start the attendance
-/end\_attendance \- To end the attendance and send the result as csv
+        update.message.reply_text('''For the proper working of the bot, you should add the bot to your group and you should promote the bot as admin with delete messages privilage\. Here are the available commands\. Please note that the commands having 📤 emoji can be executed in bot's personalmessage only and commands having 👮 emoji can be executed by group admins in their group only\. 
+
+📤 /help \- To display this text
+👮 /start\_attendance \- To start the attendance
+👮 /end\_attendance \- To end the attendance and send the result as csv
         
 Please be noted that the end\_attendance command will send the result in csv format as a personal message to you only if you have had conversation with the bot before\. Otherwise it will sent to the group\. 
 
@@ -72,7 +72,7 @@ If you found any issues or have any feature requests, head to our GitLab [issues
         choice = query.data
         if choice == 'present':
             if [i for i, v in enumerate(context.chat_data['list']) if v[1] == update.effective_user.id]:
-                context.bot.answer_callback_query(callback_query_id=query.id, text="You have already maked your attendance", show_alert=True)
+                context.bot.answer_callback_query(callback_query_id=query.id, text="You have already marked your attendance", show_alert=True)
             else:
                 _first_name = update.effective_user.first_name
                 _last_name = update.effective_user.last_name or ''
