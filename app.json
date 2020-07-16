@@ -14,13 +14,15 @@
     "website": "https://telegram.dog/GroupAttendanceUpdates",
     "success_url": "https://t.me/s/GroupAttendanceUpdates/1",
     "env": {
-        "ENV": {
-            "description": "Setting this to ANYTHING will enable environment variables.",
+        "TG_BOT_TOKEN": {
+            "description": "Telegram Bot API key from @BotFather"
+        },
+        "USE_WEBHOOKS": {
+            "description": "set this to ANYTHING to enable WEBHOOK mode",
             "value": "ANYTHING"
         },
-        "BOT_API": {
-            "description": "Telegram Bot API key from @BotFather",
-            "required": true
+        "WEBHOOK_URL": {
+            "description": "the value should be https://<app-name>.herokuapp.com/"
         }
     },
     "addons": [{
@@ -31,5 +33,11 @@
     }],
     "buildpacks": [{
         "url": "heroku/python"
-    }]
+    }],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
 }
