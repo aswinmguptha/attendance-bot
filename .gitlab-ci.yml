@@ -1,0 +1,23 @@
+image: node:alpine
+
+before_script:
+# Add bash and git
+- apk add --update bash git
+# Add ssh if not exists
+- 'which ssh-agent || ( apk add --update openssh )'
+# Run ssh-agent (inside the build environment)
+- eval $(ssh-agent -s)
+# Add the SSH key stored in SSH_PEM_KEY variable to the agent store
+- echo "$SSH_PEM_KEY" | ssh-add -
+- mkdir -p ~/.ssh
+- '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+stages:
+  - deploy
+
+production-deploy:
+  stage: deploy
+  script:
+    - ssh -q $USER@$SERVER_ADDR "systemctl restart attendance_bot"
+  only:
+    - master
