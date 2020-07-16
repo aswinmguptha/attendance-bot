@@ -1,0 +1,43 @@
+{
+    "name": "Group Attendance Bot",
+    "description": "Attendance checker bot from @KeralagramChannel",
+    "logo": "https://assets.gitlab-static.net/uploads/-/system/project/avatar/19254056/bar.jpg",
+    "keywords": [
+        "telegram",
+        "bot",
+        "modular",
+        "classroom",
+        "foss",
+        "productivity"
+    ],
+    "repository": "https://gitlab.com/keralagram/attendance-bot",
+    "website": "https://telegram.dog/GroupAttendanceUpdates",
+    "success_url": "https://t.me/s/GroupAttendanceUpdates/1",
+    "env": {
+        "TG_BOT_TOKEN": {
+            "description": "Telegram Bot API key from @BotFather"
+        },
+        "USE_WEBHOOKS": {
+            "description": "set this to ANYTHING to enable WEBHOOK mode",
+            "value": "ANYTHING"
+        },
+        "WEBHOOK_URL": {
+            "description": "the value should be https://<app-name>.herokuapp.com/"
+        }
+    },
+    "addons": [{
+        "plan": "heroku-postgresql",
+        "options": {
+            "version": "12"
+        }
+    }],
+    "buildpacks": [{
+        "url": "heroku/python"
+    }],
+    "formation": {
+        "web": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
