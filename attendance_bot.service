@@ -6,7 +6,7 @@ After=mult-user.target
 Type=simple
 WorkingDirectory=/root/attendance-bot
 ExecStartPre=/usr/bin/git pull
-ExecStart=/root/attendance-bot/venv/bin/python bot.py
+ExecStart=/root/attendance-bot/venv/bin/python -m attendance_bot
 
 [Install]
 WantedBy=multi-user.target
