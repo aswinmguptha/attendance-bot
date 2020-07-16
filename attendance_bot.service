@@ -1,0 +1,12 @@
+[Unit]
+Description=Attendance Bot for Telegram
+After=mult-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/attendance-bot
+ExecStartPre=/usr/bin/git pull
+ExecStart=/root/attendance-bot/venv/bin/python bot.py
+
+[Install]
+WantedBy=multi-user.target
