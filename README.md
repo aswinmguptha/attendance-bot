@@ -14,4 +14,3 @@ environment variables (see below) and run with `python3 -m attendance_bot`.
 * `USE_WEBHOOKS` - set this variable to `ANYTHING` to use WEBHOOKs mode, else the RoBot will use Long Polling.
 * `PORT` (defaults to `5000`) - The port to listen at.
 * `WEBHOOK_URL` (defaults to `http://localhost:5000/`) - The host to listen at.
-
