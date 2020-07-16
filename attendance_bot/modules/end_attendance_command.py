@@ -5,29 +5,21 @@
 import csv
 from datetime import datetime
 from io import StringIO, BytesIO
-from telegram import (
-    Update
-)
-from telegram.ext import (
-    CommandHandler,
-    Filters
-)
+from telegram import Update
+from telegram.ext import CommandHandler
 
-from attendance_bot import (
-    dispatcher
-)
+from attendance_bot import dispatcher
+
+from attendance_bot.custom.filters import Filter
 
 
 def end_attendance_fn(update: Update, context):
     original_member = context.bot.get_chat_member(
-        update.effective_chat.id,
-        update.effective_user.id
+        update.effective_chat.id, update.effective_user.id
     )
     if original_member.status in ("creator", "administrator"):
         if "flag" not in context.chat_data:
-            update.message.reply_text(
-                "Please start the attendance first"
-            )
+            update.message.reply_text("Please start the attendance first")
             update.message.delete()
             return
         else:
@@ -43,7 +35,7 @@ def end_attendance_fn(update: Update, context):
                     len(context.chat_data["list"])
                 ),
                 chat_id=context.chat_data["message"].chat_id,
-                message_id=context.chat_data["message"].message_id
+                message_id=context.chat_data["message"].message_id,
             )
 
             date_and_time = datetime.now().strftime("%F-%A-%r")
@@ -52,46 +44,36 @@ def end_attendance_fn(update: Update, context):
 
             with StringIO() as f:
                 _writer = csv.writer(f)
-                _writer.writerow([
-                    "Serial number",
-                    "user id",
-                    "Name",
-                    "Time"
-                ])
+                _writer.writerow(["Serial number", "user id", "Name", "Time"])
                 _writer.writerows(context.chat_data["list"])
                 f.seek(0)
                 f = BytesIO(f.read().encode("utf8"))
                 if len(context.chat_data["list"]) > 0:
                     try:
-                        context.bot.send_document(update.effective_user.id, f, filename=filename, caption=caption)
-                    except Exception as e:
-                        context.bot.send_message(
-                            update.effective_chat.id,
-                            str(e)
+                        context.bot.send_document(
+                            update.effective_user.id,
+                            f,
+                            filename=filename,
+                            caption=caption,
                         )
+                    except Exception as e:
+                        context.bot.send_message(update.effective_chat.id, str(e))
                         context.bot.send_message(
-                            update.effective_chat.id,
-                            "Posting result in the group..."
+                            update.effective_chat.id, "Posting result in the group..."
                         )
                         f.seek(0)
                         context.bot.send_document(
                             update.effective_chat.id,
                             f,
                             filename=filename,
-                            caption=caption
+                            caption=caption,
                         )
             del context.chat_data["flag"]
     else:
-        update.message.reply_text(
-            "Only admins can execute this command"
-        )
+        update.message.reply_text("Only admins can execute this command")
     update.message.delete()
 
 
 dispatcher.add_handler(
-    CommandHandler(
-        "end_attendance",
-        end_attendance_fn,
-        Filters.group
-    )
+    CommandHandler("end_attendance", end_attendance_fn, Filter.group)
 )
