@@ -22,6 +22,7 @@ class Config:
     USE_WEBHOOKS = bool(os.environ.get("USE_WEBHOOKS", False))
     WEBHOOK_URL = os.environ.get("WEBHOOK_URL", None)
     PORT = int(os.environ.get("PORT", 5000))
+    DATABASE_URL = os.environ.get("DATABASE_URL", None)
 
 
 class Development(Config):

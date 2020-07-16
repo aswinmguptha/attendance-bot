@@ -25,6 +25,7 @@ TG_BOT_TOKEN = Config.TG_BOT_TOKEN
 USE_WEBHOOKS = Config.USE_WEBHOOKS
 WEBHOOK_URL = Config.WEBHOOK_URL
 WEBHOOK_PORT = Config.PORT
+DATABASE_URL = Config.DATABASE_URL
 
 
 # Create the Updater and pass it your bot's token.

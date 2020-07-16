@@ -4,6 +4,7 @@
 
 from datetime import datetime
 from telegram import (
+    CallbackQuery,
     Update
 )
 from telegram.ext import (
@@ -20,7 +21,7 @@ from attendance_bot import (
 def mark_attendance_fn(update: Update, context):
     query = update.callback_query
     choice = query.data
-    if choice == 'present':
+    if choice == "present":
         if any(
             (
                 v[1] == update.effective_user.id
@@ -52,6 +53,7 @@ def mark_attendance_fn(update: Update, context):
 
 dispatcher.add_handler(
     CallbackQueryHandler(
-        mark_attendance_fn
+        mark_attendance_fn,
+        pattern=r"present"
     )
 )
