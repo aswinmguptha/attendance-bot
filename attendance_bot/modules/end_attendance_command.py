@@ -46,19 +46,39 @@ def end_attendance_fn(update: Update, context):
             f.seek(0)
             f = BytesIO(f.read().encode("utf8"))
             if len(context.chat_data["list"]) > 0:
-                try:
-                    context.bot.send_document(
-                        update.effective_user.id, f, filename=filename, caption=caption,
-                    )
-                except Exception as e:
-                    context.bot.send_message(update.effective_chat.id, str(e))
-                    context.bot.send_message(
-                        update.effective_chat.id, "Posting result in the group..."
-                    )
-                    f.seek(0)
-                    context.bot.send_document(
-                        update.effective_chat.id, f, filename=filename, caption=caption,
-                    )
+                if context.chat_data["start_user"]["id"]==update.effective_user.id:
+                    try:
+                        context.bot.send_document(
+                            update.effective_user.id, f, filename=filename, caption=caption,
+                        )
+                    except Exception as e:
+                        context.bot.send_message(update.effective_chat.id, str(e))
+                        context.bot.send_message(
+                            update.effective_chat.id, "Posting result in the group..."
+                        )
+                        f.seek(0)
+                        context.bot.send_document(
+                            update.effective_chat.id, f, filename=filename, caption=caption,
+                        )
+                else:
+                    try:
+                        context.bot.send_document(
+                                context.chat_data["start_user"]["id"], f, filename=filename, caption=caption,
+                                )
+                        f.seek(0)
+                        context.bot.send_document(
+                                update.effective_user.id, f, filename=filename, caption=caption,
+                                )
+
+                    except Exception as e:
+                        context.bot.send_message(update.effective_chat.id, str(e))
+                        context.bot.send_message(
+                            update.effective_chat.id, "Couldn't send to one organizer of the attendance..."
+                        )
+                        f.seek(0)
+                        context.bot.send_document(
+                            update.effective_chat.id, f, filename=filename, caption=caption,
+                        )
         del context.chat_data["flag"]
 
 
