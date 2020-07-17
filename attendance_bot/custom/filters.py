@@ -27,7 +27,7 @@ class Filter(object):
                         ]
                     ]
                 )
-                message.reply_text(
+                msg = message.reply_text(
                     "Run this command in PM!", reply_markup=reply_keyboard
                 )
                 schedule_delete(message.chat.id, msg.message_id, 10)
