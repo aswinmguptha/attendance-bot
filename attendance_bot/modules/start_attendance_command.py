@@ -11,8 +11,9 @@ from attendance_bot.custom.filters import Filter
 
 def start_attendance_fn(update: Update, context):
     if "flag" in context.chat_data:
-        update.message.reply_text("Please close the current attendance first")
-        update.message.delete()
+        update.message.reply_text(
+            "Please close the current attendance first", reply_to_message_id=None
+        )
         return
     else:
         context.chat_data["flag"] = True
@@ -20,9 +21,10 @@ def start_attendance_fn(update: Update, context):
         keyboard = [[InlineKeyboardButton("Present", callback_data="present")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         context.chat_data["message"] = update.message.reply_text(
-            "Please mark your attendance", reply_markup=reply_markup
+            "Please mark your attendance",
+            reply_to_message_id=None,
+            reply_markup=reply_markup,
         )
-        update.message.delete()
 
 
 dispatcher.add_handler(

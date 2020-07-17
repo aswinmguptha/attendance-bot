@@ -15,7 +15,9 @@ from attendance_bot.custom.filters import Filter
 
 def end_attendance_fn(update: Update, context):
     if "flag" not in context.chat_data:
-        update.message.reply_text("Please start the attendance first")
+        update.message.reply_text(
+            "Please start the attendance first", reply_to_message_id=None
+        )
         return
     else:
         """if "list" not in context.chat_data:
