@@ -41,12 +41,19 @@ class Filter(object):
     class _Admin(BaseFilter):
         def filter(self, message):
             sender = updater.bot.get_chat_member(message.chat.id, message.from_user.id)
+            print(sender.status)
             if sender.status not in ["creator", "administrator"]:
                 msg = message.reply_text("Only admins can execute this command")
                 schedule_delete(message.chat.id, msg.message_id, 10)
-                message.delete()
+                try:
+                    message.delete()
+                except:
+                    pass
                 return False
-            message.delete()
+            try:
+                message.delete()
+            except:
+                pass
             return True
 
     admin = _Admin()

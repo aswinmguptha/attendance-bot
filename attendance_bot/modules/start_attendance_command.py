@@ -18,6 +18,7 @@ def start_attendance_fn(update: Update, context):
     else:
         context.chat_data["flag"] = True
         context.chat_data["list"] = []
+        context.chat_data["start_user"] = update.message.from_user
         keyboard = [[InlineKeyboardButton("Present", callback_data="present")]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         context.chat_data["message"] = update.message.reply_text(
