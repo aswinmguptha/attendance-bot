@@ -34,10 +34,24 @@ def config_command_fn(update: Update, context):
     )])
     reply_markup = InlineKeyboardMarkup(keyboard)
     user_details = get_chat_by_userid(update.effective_chat.id)
+    if not user_details:
+        chat_type = update.effective_chat.type
+        if chat_type == "private":
+            add_user(
+                update.effective_user.id,
+                update.effective_user.first_name,
+                update.effective_user.last_name or "",
+                chat_type
+            )
+        else:
+            add_user(
+                update.effective_chat.id,
+                update.effective_chat.title,
+                "",
+                chat_type
+            )
+        user_details = get_chat_by_userid(update.effective_chat.id)
     message_text = "Please select the appropriate buttons:"
-    if user_details:
-        message_text += f"<b>Language</b>: {user_details.language_code}\n"
-    # message_text += f"<b>Timezone</b>: {}\n"
     update.message.reply_text(
         text=message_text,
         reply_markup=reply_markup
