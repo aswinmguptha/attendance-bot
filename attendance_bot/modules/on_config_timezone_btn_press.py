@@ -15,6 +15,9 @@ from telegram.ext import (
 from attendance_bot import (
     dispatcher
 )
+from attendance_bot.helpers.get_reply_markup_for_time_zone import (
+    get_time_zone_ntb
+)
 from attendance_bot.sql.timezone_sql import (
     get_time_zone,
     update_time_zone
@@ -45,7 +48,8 @@ def change_tz_cfg_btn(update: Update, context):
         current_selected_tz = current_tz.time_zone
 
     query.message.edit_text(
-        f"#TBD current selected tz: {current_selected_tz}"
+        f"#TBD current selected tz: {current_selected_tz}",
+        reply_markup=get_time_zone_ntb(0)
     )
 
 
