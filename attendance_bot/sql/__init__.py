@@ -12,14 +12,11 @@ from attendance_bot import DATABASE_URL
 def start() -> scoped_session:
     engine = create_engine(
         DATABASE_URL,
-        client_encoding="utf8"
+        # client_encoding="utf8"
     )
     BASE.metadata.bind = engine
     BASE.metadata.create_all(engine)
-    return scoped_session(sessionmaker(
-        bind=engine,
-        autoflush=False
-    ))
+    return scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 
 BASE = declarative_base()
