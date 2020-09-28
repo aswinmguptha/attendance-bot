@@ -3,6 +3,7 @@
 
 
 import csv
+import pytz
 from datetime import datetime
 from io import StringIO, BytesIO
 from telegram import Update
@@ -15,9 +16,12 @@ from attendance_bot.sql.attendance_sheet_sql import (
     get_attendance_results,
     clear_attendance_sheet,
 )
+from attendance_bot.helpers.wrappers import into_local_time
 
 
-def end_attendance_fn(update: Update, context):
+@into_local_time
+def end_attendance_fn(update: Update, context, tz=pytz.UTC.zone):
+    tz = pytz.timezone(tz)
     original_member = context.bot.get_chat_member(
         update.effective_chat.id, update.effective_user.id
     )
@@ -42,13 +46,15 @@ def end_attendance_fn(update: Update, context):
                 message_id=is_locked.message_id,
             )
 
-            date_and_time = datetime.now().strftime("%F-%A-%r")
+            date_and_time = datetime.now(tz).strftime("%F-%A-%r")
             filename = f"{update.effective_chat.title}-Attendance-{date_and_time}.csv"
-            caption = f'Attendees: {len(results)}\nDate: {datetime.now().strftime("%F")}\nTime: {datetime.now().strftime("%r")}'
+            caption = f'Attendees: {len(results)}\nDate: {datetime.now(tz).strftime("%F")}\nTime: {datetime.now(tz).strftime("%r")} {tz.zone}'
 
             with StringIO() as f:
                 _writer = csv.writer(f)
-                _writer.writerow(["Serial number", "user id", "Name", "Time"])
+                _writer.writerow(
+                    ["Serial number", "user id", "Name", f"Time ({tz.zone})"]
+                )
                 for index, result in enumerate(results, start=1):
                     _writer.writerow(
                         [index, result.user_id, result.user_name, result.time]

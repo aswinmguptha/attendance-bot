@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import pytz
 
 from datetime import datetime
 from telegram import CallbackQuery, Update
@@ -9,10 +10,13 @@ from telegram.ext import CallbackQueryHandler, run_async
 from attendance_bot import dispatcher
 
 from attendance_bot.sql.attendance_sheet_sql import mark_attendance, check_attendance
+from attendance_bot.helpers.wrappers import into_local_time
 
 
 @run_async
-def mark_attendance_fn(update: Update, context):
+@into_local_time
+def mark_attendance_fn(update: Update, context, tz=pytz.UTC.zone):
+    tz = pytz.timezone(tz)
     query = update.callback_query
     choice = query.data
     if choice == "present":
@@ -25,8 +29,8 @@ def mark_attendance_fn(update: Update, context):
         else:
             _first_name = update.effective_user.first_name
             _last_name = update.effective_user.last_name or ""
-            _user_name = _first_name + " " + _last_name
-            _time = datetime.now().strftime("%H:%M")
+            _user_name = (_first_name + " " + _last_name).strip()
+            _time = datetime.now(tz).strftime("%H:%M")
             mark_attendance(
                 update.effective_chat.id, update.effective_user.id, _user_name, _time
             )
