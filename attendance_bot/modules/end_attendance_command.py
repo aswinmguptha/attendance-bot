@@ -32,31 +32,15 @@ def end_attendance_fn(update: Update, context, tz=pytz.UTC.zone):
             update.message.delete()
             return
         else:
-            """if "list" not in context.chat_data:
-                context.bot.edit_message_text(
-                    text="Attendance is over. 0 people marked attendance.",
-                    chat_id=context.chat_data["message"].chat_id,
-                    message_id=context.chat_data["message"].message_id
-                )
-            else:"""
             results = get_attendance_results(update.effective_chat.id)
             context.bot.edit_message_text(
                 text=f"Attendance is over. {len(results)} people marked attendance.",
                 chat_id=is_locked.chat_id,
                 message_id=is_locked.message_id,
             )
-        else:"""
-        context.bot.edit_message_text(
-            text="Attendance is over. {} people marked attendance.".format(
-                len(context.chat_data["list"])
-            ),
-            chat_id=context.chat_data["message"].chat_id,
-            message_id=context.chat_data["message"].message_id,
-        )
-
             date_and_time = datetime.now(tz).strftime("%F-%A-%r")
             filename = f"{update.effective_chat.title}-Attendance-{date_and_time}.csv"
-            caption = f'Attendees: {len(results)}\nDate: {datetime.now(tz).strftime("%F")}\nTime: {datetime.now(tz).strftime("%r")} {tz.zone}'
+            caption = f'Attendees: {len(results)}\nDate: {datetime.now(tz).strftime("%F")}\nTime: {datetime.now(tz).strftime("%I:%M %p")} {tz.zone}'
 
             with StringIO() as f:
                 _writer = csv.writer(f)
