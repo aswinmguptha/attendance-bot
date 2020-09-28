@@ -4,17 +4,21 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CommandHandler, Filters, run_async
 
-from attendance_bot import dispatcher
+from attendance_bot import dispatcher, i18n
 from attendance_bot.sql.users_sql import get_chat_by_userid, add_user
+from attendance_bot.helpers.wrappers import localize
 
 
 @run_async
+@localize
 def config_command_fn(update: Update, context):
     keyboard = []
     keyboard.append(
-        [InlineKeyboardButton(text="Language", callback_data="config_lang")]
+        [InlineKeyboardButton(text=i18n.t("language"), callback_data="config_lang")]
     )
-    keyboard.append([InlineKeyboardButton(text="Timezone", callback_data="config_tz")])
+    keyboard.append(
+        [InlineKeyboardButton(text=i18n.t("timezone"), callback_data="config_tz")]
+    )
     reply_markup = InlineKeyboardMarkup(keyboard)
     user_details = get_chat_by_userid(update.effective_chat.id)
     if not user_details:
@@ -31,7 +35,7 @@ def config_command_fn(update: Update, context):
                 update.effective_chat.id, update.effective_chat.title, "", chat_type
             )
         user_details = get_chat_by_userid(update.effective_chat.id)
-    message_text = "Please select the appropriate buttons:"
+    message_text = i18n.t("main_menu")
     update.message.reply_text(text=message_text, reply_markup=reply_markup)
 
 

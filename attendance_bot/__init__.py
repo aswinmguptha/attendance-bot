@@ -4,6 +4,7 @@
 
 import logging
 import os
+import i18n
 from telegram.ext import Updater
 
 
@@ -36,3 +37,9 @@ dispatcher = updater.dispatcher
 
 
 BOT_USERNAME = updater.bot.username
+
+
+i18n.load_path.append("locale")
+i18n.set("filename_format", "{locale}.{format}")
+i18n.set("skip_locale_root_data", True)
+i18n.set("fallback", "en")
