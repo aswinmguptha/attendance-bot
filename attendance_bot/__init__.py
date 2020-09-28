@@ -15,8 +15,7 @@ else:
 
 # LOGGing configurations
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -31,9 +30,9 @@ DATABASE_URL = Config.DATABASE_URL
 # Create the Updater and pass it your bot's token.
 # Make sure to set use_context=True to use the new context based callbacks
 # Post version 12 this will no longer be necessary
-updater = Updater(
-    token=TG_BOT_TOKEN,
-    use_context=True
-)
+updater = Updater(token=TG_BOT_TOKEN, use_context=True)
 # Get the dispatcher to register handlers
 dispatcher = updater.dispatcher
+
+
+BOT_USERNAME = updater.bot.username
