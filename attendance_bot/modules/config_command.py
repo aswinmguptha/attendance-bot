@@ -7,6 +7,7 @@ from telegram.ext import CommandHandler, Filters, run_async
 from attendance_bot import dispatcher, i18n
 from attendance_bot.sql.users_sql import get_chat_by_userid, add_user
 from attendance_bot.helpers.wrappers import localize
+from attendance_bot.custom.filters import Filter
 
 
 @run_async
@@ -39,4 +40,6 @@ def config_command_fn(update: Update, context):
     update.message.reply_text(text=message_text, reply_markup=reply_markup)
 
 
-dispatcher.add_handler(CommandHandler("config", config_command_fn))
+dispatcher.add_handler(
+    CommandHandler("config", config_command_fn, filters=Filter.admin)
+)
