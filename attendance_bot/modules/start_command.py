@@ -11,6 +11,7 @@ from attendance_bot.helpers.wrappers import localize
 @run_async
 @localize
 def start_fn(update: Update, context):
+    update.message.reply_sticker("CAADAgADQwoAAowucAAB9YyW9ZZhYnMWBA")
     update.message.reply_markdown(i18n.t("bot_welcome"))
 
 
