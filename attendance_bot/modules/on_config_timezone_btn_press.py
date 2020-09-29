@@ -15,7 +15,6 @@ from telegram.ext import (
 from timezonefinder import TimezoneFinder
 
 from attendance_bot import dispatcher, i18n
-from attendance_bot.helpers.get_reply_markup_for_time_zone import get_time_zone_ntb
 from attendance_bot.sql.timezone_sql import get_time_zone, update_time_zone
 from attendance_bot.sql.locks_sql import check_lock
 from attendance_bot.helpers.wrappers import localize
