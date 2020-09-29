@@ -22,7 +22,7 @@ def gen_locale_keyboard():
     language_list = {}
     count = 0
     temp = []
-    files = os.listdir("locale")
+    files = (os.listdir("locale")).remove("README.md")
     for _file in files:
         count += 1
         with open(os.path.join("locale", _file), "r") as f:
