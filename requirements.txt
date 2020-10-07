@@ -8,6 +8,7 @@ numba==0.51.2
 numpy==1.19.2
 psycopg2-binary==2.8.6
 pycparser==2.20
+python-i18n==0.3.9
 python-telegram-bot==12.8
 pytz==2020.1
 six==1.15.0
