@@ -37,7 +37,7 @@ def config_command_fn(update: Update, context):
             )
         user_details = get_chat_by_userid(update.effective_chat.id)
     message_text = i18n.t("main_menu")
-    update.message.reply_text(text=message_text, reply_markup=reply_markup)
+    update.message.reply_text(text=message_text, reply_markup=reply_markup, reply_to_message_id=None)
 
 
 dispatcher.add_handler(
