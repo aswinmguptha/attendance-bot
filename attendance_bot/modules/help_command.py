@@ -17,6 +17,7 @@ def help_fn(update: Update, context):
 📤 /help \- To display this text
 👮 /start\_attendance \- To start the attendance
 👮 /end\_attendance \- To end the attendance and send the result as csv
+👮 /config \- To configure the timezone and language
 
 Please be noted that the end\_attendance command will send the result in csv format as a personal message to you only if you have had conversation with the bot before\. Otherwise it will sent to the group\.
 

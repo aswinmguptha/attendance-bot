@@ -22,11 +22,11 @@ def gen_locale_keyboard():
     language_list = {}
     count = 0
     temp = []
-    files = os.listdir("locale")
+    files = os.listdir(os.path.join(os.path.dirname(__file__), "locale"))
     files.remove("README.md")
     for _file in files:
         count += 1
-        with open(os.path.join("locale", _file), "r") as f:
+        with open(os.path.join(os.path.join(os.path.dirname(__file__), "locale"), _file), "r") as f:
             data = json.load(f)
             temp.append(
                 InlineKeyboardButton(
