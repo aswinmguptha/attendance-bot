@@ -4,6 +4,8 @@
 
 import logging
 import os
+import i18n
+import pathlib
 from telegram.ext import Updater
 
 
@@ -24,6 +26,7 @@ TG_BOT_TOKEN = Config.TG_BOT_TOKEN
 USE_WEBHOOKS = Config.USE_WEBHOOKS
 WEBHOOK_URL = Config.WEBHOOK_URL
 WEBHOOK_PORT = Config.PORT
+DATABASE_URL = Config.DATABASE_URL
 
 
 # Create the Updater and pass it your bot's token.
@@ -35,3 +38,9 @@ dispatcher = updater.dispatcher
 
 
 BOT_USERNAME = updater.bot.username
+
+
+i18n.load_path.append(os.path.join((pathlib.Path(__file__).parent).parent, "locale"))
+i18n.set("filename_format", "{locale}.{format}")
+i18n.set("skip_locale_root_data", True)
+i18n.set("fallback", "en")
