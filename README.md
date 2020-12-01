@@ -1,6 +1,6 @@
 # Attendance Bot
 
-We've always wanted to make your lives easier. We get that the struggle of managing attendance is real, but we also know that the power of technology is unmatched. So we created our own Attendance Bot for Telegram to cut down on time and effort you spend on attendance. We hope you will enjoy Group Attendance Bot as much as we did building it. Check out [CONTRIBUTING.md](.CONTRIBUTING.md) to contribute to the project. Thank you for your support.
+We've always wanted to make your lives easier. We get that the struggle of managing attendance is real, but we also know that the power of technology is unmatched. So we created our own Attendance Bot for Telegram to cut down on time and effort you spend on attendance. We hope you will enjoy Group Attendance Bot as much as we did building it. Check out [CONTRIBUTING.md](CONTRIBUTING.md) to contribute to the project. If you are interested in translating the bot to any languages, check out [locale/CONTRIBUTING.md](locale/CONTRIBUTING.md). Thank you for your support.
 
 ## Setup
 Install dependencies (see [requirements.txt](./requirements.txt)), configure
