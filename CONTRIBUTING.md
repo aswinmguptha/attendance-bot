@@ -35,7 +35,7 @@ Bugs on th bot are tracked using GitLAb [issues](https://gitlab.com/keralagram/a
 
 #### Translation
 
-If you wish to translate the bot to other languages, check out [locale/CONTRIBUTING.md](locale/CONTRIBUTING.md) for guidelines.
+If you wish to translate the bot to other languages, check out [locale/CONTRIBUTING.md](locale/README.md) for guidelines.
 
 #### Feature requests
 
