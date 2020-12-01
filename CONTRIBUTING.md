@@ -7,6 +7,7 @@ Here are some guidelines for contributing to [Group Attendance Bot](https://gitl
 #### Table of content
 
 [Code of Conduct](#code-of-conduct)
+
 [How to Contribute?](#how-to-contribute)
 * [Fixing exisiting issues](#fixing-existing-issues)
 * [Reporting bugs](reporting-bugs)
@@ -35,7 +36,7 @@ Bugs on th bot are tracked using GitLAb [issues](https://gitlab.com/keralagram/a
 
 #### Translation
 
-If you wish to translate the bot to other languages, check out [locale/CONTRIBUTING.md](locale/README.md) for guidelines.
+If you wish to translate the bot to other languages, check out [locale/README.md](locale/README.md) for guidelines.
 
 #### Feature requests
 
