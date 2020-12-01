@@ -10,7 +10,7 @@ Here are some guidelines for contributing to [Group Attendance Bot](https://gitl
 
 [How to Contribute?](#how-to-contribute)
 * [Fixing exisiting issues](#fixing-existing-issues)
-* [Reporting bugs](reporting-bugs)
+* [Reporting bugs](#reporting-bugs)
 * [Translation](#translation)
 * [Feature requests](#feature-requests)
 
