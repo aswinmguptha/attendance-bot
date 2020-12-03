@@ -34,11 +34,14 @@ def end_attendance_fn(update: Update, context, tz=pytz.UTC.zone):
             return
         else:
             results = get_attendance_results(update.effective_chat.id)
-            context.bot.edit_message_text(
+            try:
+                context.bot.edit_message_text(
                 text=i18n.t("attendance_over", total=len(results)),
                 chat_id=is_locked.chat_id,
                 message_id=is_locked.message_id,
-            )
+                )
+            except Exception as e:
+                pass
             date_and_time = datetime.now(tz).strftime("%F-%A-%r")
             filename = f"{update.effective_chat.title}-Attendance-{date_and_time}.csv"
             caption = f'Attendees: {len(results)}\nDate: {datetime.now(tz).strftime("%F")}\nTime: {datetime.now(tz).strftime("%I:%M %p")} {tz.zone}'
