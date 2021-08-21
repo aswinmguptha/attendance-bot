@@ -5,21 +5,12 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CommandHandler, Filters
 
 from attendance_bot import dispatcher, i18n
-from attendance_bot.sql.users_sql import add_user
 from attendance_bot.sql.locks_sql import check_lock, toggle_lock
 from attendance_bot.helpers.wrappers import localize
 
 
 @localize
 def start_attendance_fn(update: Update, context):
-    chat_type = update.effective_chat.type
-    add_user(
-        update.effective_chat.id,
-        update.effective_chat.title,
-        "",
-        chat_type
-    )
-    #
     original_member = context.bot.get_chat_member(
         update.effective_chat.id, update.effective_user.id
     )
