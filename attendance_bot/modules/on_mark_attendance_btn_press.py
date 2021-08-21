@@ -18,20 +18,14 @@ from attendance_bot.helpers.wrappers import into_local_time, localize
 @into_local_time
 @localize
 def mark_attendance_fn(update: Update, context, tz=pytz.UTC.zone):
-    user_details = get_chat_by_userid(update.effective_chat.id)
+    user_details = get_chat_by_userid(update.effective_user.id)
     if not user_details:
-        chat_type = update.effective_chat.type
-        if chat_type == "private":
-            add_user(
-                update.effective_user.id,
-                update.effective_user.first_name,
-                update.effective_user.last_name or "",
-                chat_type,
-            )
-        else:
-            add_user(
-                update.effective_chat.id, update.effective_chat.title, "", chat_type
-            )
+        add_user(
+            update.effective_user.id,
+            update.effective_user.first_name,
+            update.effective_user.last_name or "",
+            "private",
+        )
     #
     tz = pytz.timezone(tz)
     query = update.callback_query
