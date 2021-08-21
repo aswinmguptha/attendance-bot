@@ -26,7 +26,7 @@ INSERTION_LOCK = threading.RLock()
 
 def toggle_lock(chat_id, message_id=None):
     with INSERTION_LOCK:
-        is_locked = SESSION.query(Lock).get(chat_id)
+        is_locked = SESSION.query(Lock).get(str(chat_id))
         if is_locked:
             SESSION.delete(is_locked)
             SESSION.commit()
@@ -40,7 +40,7 @@ def toggle_lock(chat_id, message_id=None):
 
 def check_lock(chat_id):
     with INSERTION_LOCK:
-        is_locked = SESSION.query(Lock).get(chat_id)
+        is_locked = SESSION.query(Lock).get(str(chat_id))
         if is_locked:
             return is_locked
         else:

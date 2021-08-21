@@ -29,17 +29,17 @@ INSERTION_LOCK = threading.RLock()
 
 def update_time_zone(user_id, time_zone):
     with INSERTION_LOCK:
-        adder = SESSION.query(TimeZone).get(user_id)
+        adder = SESSION.query(TimeZone).get(str(user_id))
         if adder:
             adder.time_zone = time_zone
         else:
-            adder = TimeZone(user_id, time_zone)
+            adder = TimeZone(str(user_id), time_zone)
         SESSION.add(adder)
         SESSION.commit()
 
 
 def get_time_zone(user_id):
     try:
-        return SESSION.query(TimeZone).get(user_id)
+        return SESSION.query(TimeZone).get(str(user_id))
     finally:
         SESSION.close()

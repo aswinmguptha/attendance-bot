@@ -48,7 +48,7 @@ def get_chat_by_userid(user_id):
 
 def del_user(user_id):
     with INSERTION_LOCK:
-        curr = SESSION.query(Users).get(user_id)
+        curr = SESSION.query(Users).get(str(user_id))
         if curr:
             SESSION.delete(curr)
             SESSION.commit()
@@ -63,14 +63,14 @@ def add_user(
     chat_type
 ):
     with INSERTION_LOCK:
-        adder = SESSION.query(Users).get(user_id)
+        adder = SESSION.query(Users).get(str(user_id))
         if adder:
             adder.first_name = first_name
             adder.last_name = last_name
             adder.chat_type = chat_type
         else:
             adder = Users(
-                user_id,
+                str(user_id),
                 first_name,
                 last_name,
                 chat_type

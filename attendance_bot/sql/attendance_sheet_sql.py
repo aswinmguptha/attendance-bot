@@ -33,14 +33,14 @@ def mark_attendance(chat_id, user_id, user_name, time):
             is_marked = (
                 SESSION.query(AttendanceSheet)
                 .filter(
-                    AttendanceSheet.chat_id == chat_id,
+                    AttendanceSheet.chat_id == str(chat_id),
                     AttendanceSheet.user_id == user_id,
                 )
                 .one()
             )
             return False
         except NoResultFound:
-            is_marked = AttendanceSheet(chat_id, user_id, user_name, time)
+            is_marked = AttendanceSheet(str(chat_id), user_id, user_name, time)
             SESSION.add(is_marked)
             SESSION.commit()
             return True
@@ -52,7 +52,7 @@ def check_attendance(chat_id, user_id):
             is_marked = (
                 SESSION.query(AttendanceSheet)
                 .filter(
-                    AttendanceSheet.chat_id == chat_id,
+                    AttendanceSheet.chat_id == str(chat_id),
                     AttendanceSheet.user_id == user_id,
                 )
                 .one()
@@ -66,7 +66,7 @@ def get_attendance_results(chat_id):
     with INSERTION_LOCK:
         return (
             SESSION.query(AttendanceSheet)
-            .filter(AttendanceSheet.chat_id == chat_id)
+            .filter(AttendanceSheet.chat_id == str(chat_id))
             .all()
         )
 
@@ -76,7 +76,7 @@ def clear_attendance_sheet(chat_id):
     with INSERTION_LOCK:
         chat_sheets = (
             SESSION.query(AttendanceSheet)
-            .filter(AttendanceSheet.chat_id == chat_id)
+            .filter(AttendanceSheet.chat_id == str(chat_id))
             .all()
         )
         if chat_sheets:

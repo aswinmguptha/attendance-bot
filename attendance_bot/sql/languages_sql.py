@@ -29,17 +29,17 @@ INSERTION_LOCK = threading.RLock()
 
 def update_language(user_id, language_code):
     with INSERTION_LOCK:
-        adder = SESSION.query(LanguageCode).get(user_id)
+        adder = SESSION.query(LanguageCode).get(str(user_id))
         if adder:
             adder.language_code = language_code
         else:
-            adder = LanguageCode(user_id, language_code)
+            adder = LanguageCode(str(user_id), language_code)
         SESSION.add(adder)
         SESSION.commit()
 
 
 def get_language(user_id):
     try:
-        return SESSION.query(LanguageCode).get(user_id)
+        return SESSION.query(LanguageCode).get(str(user_id))
     finally:
         SESSION.close()
