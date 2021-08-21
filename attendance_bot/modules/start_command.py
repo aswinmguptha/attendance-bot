@@ -12,7 +12,7 @@ from attendance_bot.helpers.wrappers import localize
 @run_async
 @localize
 def start_fn(update: Update, context):
-    user_details = get_chat_by_userid(update.effective_chat.id)
+    user_details = get_chat_by_userid(update.effective_user.id)
     if not user_details:
         chat_type = update.effective_chat.type
         if chat_type == "private":
