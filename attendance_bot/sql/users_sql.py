@@ -42,6 +42,8 @@ def get_chat_by_userid(user_id):
         return SESSION.query(Users).get(
             str(Users.chat_id) == str(user_id)
         )
+    except:
+        return None
     finally:
         SESSION.close()
 
