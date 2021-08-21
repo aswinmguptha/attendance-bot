@@ -41,5 +41,7 @@ def update_language(user_id, language_code):
 def get_language(user_id):
     try:
         return SESSION.query(LanguageCode).get(str(user_id))
+    except:
+        return None
     finally:
         SESSION.close()

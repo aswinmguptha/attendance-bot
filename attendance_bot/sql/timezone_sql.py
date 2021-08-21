@@ -41,5 +41,7 @@ def update_time_zone(user_id, time_zone):
 def get_time_zone(user_id):
     try:
         return SESSION.query(TimeZone).get(str(user_id))
+    except:
+        return None
     finally:
         SESSION.close()
