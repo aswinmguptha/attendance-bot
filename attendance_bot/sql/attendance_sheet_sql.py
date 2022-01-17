@@ -11,7 +11,7 @@ class AttendanceSheet(BASE):
     chat_id = Column(
         String, ForeignKey("users.chat_id", onupdate="CASCADE", ondelete="CASCADE"),
     )
-    user_id = Column(Integer)
+    user_id = Column(String)
     user_name = Column(String)
     time = Column(String)
 
